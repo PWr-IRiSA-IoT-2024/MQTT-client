@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  mqtt-client:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "${MQTT_PORT}:${MQTT_PORT}"
+    restart: always
