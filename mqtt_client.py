@@ -4,7 +4,7 @@ import queue
 import json
 import logging
 import signal
-from paho.mqtt.client import Client
+import paho.mqtt.client as mqtt
 
 
 required_vars = ["APP_ID", "TENANT_ID", "MQTT_HOST", "MQTT_PORT", "ACCESS_KEY"]
@@ -24,8 +24,10 @@ message_queue = queue.Queue()
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+logging.info("Starting MQTT client...")
 
-def on_connect(client, _userdata, _flags, reason_code):
+
+def on_connect(client, _userdata, _flags, reason_code, _properties):
     if reason_code == 0:
         logging.info(f"Successfully connected to {MQTT_HOST}:{MQTT_PORT} MQTT broker")
         
@@ -66,7 +68,7 @@ def shutdown_handler(_signum, _frame):
 signal.signal(signal.SIGINT, shutdown_handler)
 signal.signal(signal.SIGTERM, shutdown_handler)
 
-client = Client()
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.username_pw_set(f"{APP_ID}@{TENANT_ID}", ACCESS_KEY)
 client.on_connect = on_connect
 client.on_disconnect = on_disconnect
@@ -79,5 +81,4 @@ except Exception as e:
     logging.error("Failed to connect to MQTT broker: %s", e)
     exit(1)
 
-# Start the MQTT client in a non-blocking way to allow graceful shutdown
-client.loop_start()
+client.loop_forever()
