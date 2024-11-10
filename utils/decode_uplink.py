@@ -14,10 +14,10 @@ def decode_uplink(message):
         payload = base64.b64decode(encoded_payload)
         payload = json.loads(payload)
 
-        measurement = payload["1"]
-        tags = {"location": payload["2"]}
+        measurement = payload # Update when final structure is known
+        tags = {"device": data["end_device_ids"]["device_id"]}
         time = data["uplink_message"]["rx_metadata"][0]["time"]
-        fields = {"value": payload["3"]}
+        fields = {"value": payload} # Update when final structure is known
 
         return measurement, tags, time, fields
     
