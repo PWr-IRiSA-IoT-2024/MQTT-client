@@ -20,14 +20,17 @@ MQTT_HOST=your-mqtt-host        # MQTT broker hostname
 MQTT_PORT=1883                  # Port to connect to MQTT broker (default: 1883)
 ACCESS_KEY=your-access-key      # Access key for The Things Stack
 
-DB_URL=your-db-url              # InfluxDB URL
-DB_TOKEN=your-db-token          # InfluxDB token
-DB_ORG=your-db-org              # InfluxDB organization
+DB_HOST=your-db-host            # InfluxDB host
+DB_PORT=your-db-port            # InfluxDB port (default: 8086)
+DB_USER=your-db-user            # InfluxDB user
+DB_PASS=your-db-password        # InfluxDB password
+DB_NAME=your-db-name            # InfluxDB name
 ```
 
 ### Requirements
 
 - Docker 26+
+- InfluxDB 1.x
 
 ### Startup
 
@@ -38,4 +41,4 @@ docker-compose up --build
 ## Libraries
 
 - [`paho-mqtt`](https://pypi.org/project/paho-mqtt/)
-- [`influxdb-client`](https://pypi.org/project/influxdb-client/)
+- [`influxdb`](https://pypi.org/project/influxdb/)

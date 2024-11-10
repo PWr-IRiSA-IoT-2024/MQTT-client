@@ -1,22 +1,52 @@
 import os
-from influxdb_client import InfluxDBClient, Point
-from influxdb_client.client.write_api import SYNCHRONOUS
-
-DB_URL = os.getenv("DB_URL")
-DB_TOKEN = os.getenv("DB_TOKEN")
-DB_ORG = os.getenv("DB_ORG")
-
-client = InfluxDBClient(url=DB_URL, token=DB_TOKEN, org=DB_ORG)
-write_api = client.write_api(write_options=SYNCHRONOUS)
+import sys
+import logging
+from influxdb import InfluxDBClient
+from datetime import datetime
 
 
-BUCKET = "my-bucket"
-MEASUREMENT = "my_measurement"
-TAG_SET = ["connection_type", "LoRaWAN"]
-FIELD_KEY = "temperature"
+required_vars = ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"]
+
+for var in required_vars:
+    if not os.getenv(var):
+        sys.exit(f"Error: Environment variable {var} is not set.")
+      
+
+DB_HOST = os.getenv("DB_HOST")
+DB_PORT = os.getenv("DB_PORT")
+DB_USER = os.getenv("DB_USER")
+DB_PASS = os.getenv("DB_PASS")
+DB_NAME = os.getenv("DB_NAME")
+
+client = InfluxDBClient(DB_HOST, DB_PORT, DB_USER, DB_PASS, DB_NAME)
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
-def write_to_db(field_value):
-    p = Point(MEASUREMENT).tag(TAG_SET[0], TAG_SET[1]).field(FIELD_KEY, field_value)
+def write_data(measurement, tags, fields):
+    """
+    Writes a single data point to the InfluxDB database.
+    
+    Parameters:
+        measurement (str): The measurement name.
+        tags (dict): Dictionary of tag keys and values.
+        fields (dict): Dictionary of field keys and values.
 
-    write_api.write(bucket=BUCKET, record=p)
+        Example usage:
+            - measurement = 'temperature'
+            - tags = {"location": "office"}
+            - fields = {"value": 23.5}
+    """
+    
+    data = [{
+        "measurement": measurement,
+        "tags": tags,
+        "time": datetime.now().isoformat(), 
+        "fields": fields
+    }]
+    
+    try:
+        client.write_points(data)
+        logging.info("Data written to InfluxDB successfully")
+    except Exception as e:
+        logging.error("Failed to write data to InfluxDB: %s", e)
