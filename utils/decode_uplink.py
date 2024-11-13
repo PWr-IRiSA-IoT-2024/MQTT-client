@@ -12,12 +12,11 @@ def decode_uplink(message):
 
         encoded_payload = data["uplink_message"]["frm_payload"]
         payload = base64.b64decode(encoded_payload)
-        payload = json.loads(payload)
 
-        measurement = payload # Update when final structure is known
+        measurement = 'm' # Update when final structure is known
         tags = {"device": data["end_device_ids"]["device_id"]}
-        time = data["uplink_message"]["rx_metadata"][0]["time"]
-        fields = {"value": payload} # Update when final structure is known
+        time = data["uplink_message"]["rx_metadata"][0]["timestamp"]
+        fields = {"value": 'v'} # Update when final structure is known
 
         return measurement, tags, time, fields
     
