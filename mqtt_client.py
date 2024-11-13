@@ -1,10 +1,13 @@
 import os
 import sys
-import queue
 import json
 import logging
 import signal
 import paho.mqtt.client as mqtt
+
+from dotenv import load_dotenv
+
+load_dotenv()
 
 from utils.decode_uplink import decode_uplink
 from utils.db import write_data_to_db
