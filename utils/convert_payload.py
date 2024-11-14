@@ -1,6 +1,14 @@
 import base64
 
 
+TYPES = {
+    '0': 'CO2',
+    '1': 'VOC',
+    '2': 'Temperature',
+    '3': 'Humidity'
+}
+
+
 def convert_payload(payload):
     decoded_bytes = base64.b64decode(payload)
     
@@ -12,7 +20,7 @@ def convert_payload(payload):
     # Original byte:  10110110
     # Right shift 5:  00000101
     type_bits = byte >> 5
-    type = str(type_bits)
+    type = TYPES.get(str(type_bits), 'UNKNOWN_TYPE')
     
     # Extract the remaining 5 bits (value)
     # Mask with 0b11111 to get last 5 bits
@@ -23,5 +31,11 @@ def convert_payload(payload):
     #                 00010110
     value_bits = byte & 0b11111
     value = int(value_bits)
+
+    if type is TYPES[2]:
+        value = (value / 2) + 16
+
+    if type is TYPES[3]:
+        value = (value * 2) + 20
     
     return type, value
