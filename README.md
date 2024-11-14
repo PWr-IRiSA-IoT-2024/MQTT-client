@@ -2,7 +2,7 @@
 
 ## Description
 
-An MQTT client that connects to The Things Stack application server to receive uplink messages from registered applications. The received data is saved to an InfluxDB database for further analysis. Designed to be run in a Docker container.
+An MQTT client that connects to The Things Stack application server to receive uplink messages from registered applications. The received data is saved to an InfluxDB database for further analysis. Designed to be run in a Docker container or directly from CLI.
 
 ## Installation
 
@@ -36,6 +36,12 @@ DB_NAME=your-db-name            # InfluxDB name
 
 ```
 docker-compose up --build
+```
+
+OR
+
+```
+python3 ./mqtt_client.py
 ```
 
 ## Libraries

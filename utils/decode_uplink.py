@@ -1,6 +1,7 @@
 import json
-import base64
 import logging
+
+from .convert_payload import convert_payload
 
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -11,12 +12,12 @@ def decode_uplink(message):
         data = json.loads(message)
 
         encoded_payload = data["uplink_message"]["frm_payload"]
-        payload = base64.b64decode(encoded_payload)
+        type, value = convert_payload(encoded_payload)
 
-        measurement = 'm' # Update when final structure is known
+        measurement = type
         tags = {"device": data["end_device_ids"]["device_id"]}
         time = data["uplink_message"]["rx_metadata"][0]["timestamp"]
-        fields = {"value": 'v'} # Update when final structure is known
+        fields = {"value": value}
 
         return measurement, tags, time, fields
     

@@ -1,0 +1,17 @@
+- Expected payload from sensor -
+
+1 BYTE TOTAL
+
+aaa|bbbbb|
+   |     |
+   |    value
+  type of measurement
+
+
+- Types of measurements -
+ - CO_2
+ - Temperature
+ - Humidity
+ - Air pollution
+
+ Details: TODO insert url
