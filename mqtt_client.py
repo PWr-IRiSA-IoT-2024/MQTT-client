@@ -4,14 +4,13 @@ import json
 import logging
 import signal
 import paho.mqtt.client as mqtt
-
 from dotenv import load_dotenv
 
-load_dotenv()
-
 from utils.decode_uplink import decode_uplink
-from utils.db import write_data_to_db
+from utils.connect_with_db import write_data_to_db
 
+
+load_dotenv()
 
 required_vars = ["APP_ID", "TENANT_ID", "MQTT_HOST", "MQTT_PORT", "ACCESS_KEY"]
 
@@ -41,7 +40,7 @@ def on_connect(client, _userdata, _flags, reason_code, _properties):
         logging.error("Connection failed with return code %s", reason_code)
 
 
-def on_disconnect(client, _userdata, reason_code):
+def on_disconnect(client, _userdata, _disconnect_flags, reason_code, _properties):
     if reason_code != 0:
         logging.warning("Unexpected disconnection, attempting to reconnect...")
         client.reconnect()
@@ -59,7 +58,7 @@ def on_message(_client, _userdata, msg):
 
         write_data_to_db(measurement, tags, time, fields)
 
-        logging.info("Message received and added to queue from topic %s", msg.topic)
+        logging.info("Message received from topic %s", msg.topic)
     except json.JSONDecodeError as e:
         logging.error("Failed to decode JSON payload: %s", e)
 
