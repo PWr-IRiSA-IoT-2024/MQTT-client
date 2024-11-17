@@ -6,11 +6,11 @@ import signal
 import paho.mqtt.client as mqtt
 from dotenv import load_dotenv
 
+# Load env before loading module
+load_dotenv()
+
 from utils.decode_uplink import decode_uplink
 from utils.connect_with_db import write_data_to_db
-
-
-load_dotenv()
 
 required_vars = ["APP_ID", "TENANT_ID", "MQTT_HOST", "MQTT_PORT", "ACCESS_KEY"]
 
