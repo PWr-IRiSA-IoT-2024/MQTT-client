@@ -9,7 +9,7 @@ required_vars = ["DB_HOST", "DB_PORT", "DB_USER", "DB_PASS", "DB_NAME"]
 for var in required_vars:
     if not os.getenv(var):
         sys.exit(f"Error: Environment variable {var} is not set.")
-      
+
 DB_HOST = os.getenv("DB_HOST")
 DB_PORT = os.getenv("DB_PORT")
 DB_USER = os.getenv("DB_USER")

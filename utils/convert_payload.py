@@ -32,10 +32,10 @@ def convert_payload(payload):
     value_bits = byte & 0b11111
     value = int(value_bits)
 
-    if type is TYPES[2]:
+    if type is 'Temperature':
         value = (value / 2) + 16
 
-    if type is TYPES[3]:
+    if type is 'Humidity':
         value = (value * 2) + 20
     
     return type, value
