@@ -16,7 +16,7 @@ def decode_uplink(message):
 
         measurement = type
         tags = {"device": data["end_device_ids"]["device_id"]}
-        time = data["time"]
+        time = data["uplink_message"]["received_at"]
         fields = {"value": value}
 
         return measurement, tags, time, fields
