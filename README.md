@@ -2,7 +2,7 @@
 
 ## Description
 
-An MQTT client that connects to The Things Stack application server to receive uplink messages from registered applications. Designed to be run in a Docker container.
+An MQTT client that connects to The Things Stack application server to receive uplink messages from registered applications. The received data is saved to an InfluxDB database for further analysis. Designed to be run in a Docker container or directly from CLI.
 
 ## Installation
 
@@ -19,11 +19,18 @@ TENANT_ID=your-tenant-id        # The Things Stack username
 MQTT_HOST=your-mqtt-host        # MQTT broker hostname
 MQTT_PORT=1883                  # Port to connect to MQTT broker (default: 1883)
 ACCESS_KEY=your-access-key      # Access key for The Things Stack
+
+DB_HOST=your-db-host            # InfluxDB host
+DB_PORT=your-db-port            # InfluxDB port (default: 8086)
+DB_USER=your-db-user            # InfluxDB user
+DB_PASS=your-db-password        # InfluxDB password
+DB_NAME=your-db-name            # InfluxDB name
 ```
 
 ### Requirements
 
 - Docker 26+
+- InfluxDB 1.x
 
 ### Startup
 
@@ -31,6 +38,13 @@ ACCESS_KEY=your-access-key      # Access key for The Things Stack
 docker-compose up --build
 ```
 
+OR
+
+```
+python3 ./mqtt_client.py
+```
+
 ## Libraries
 
 - [`paho-mqtt`](https://pypi.org/project/paho-mqtt/)
+- [`influxdb`](https://pypi.org/project/influxdb/)

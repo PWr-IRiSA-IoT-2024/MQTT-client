@@ -1,2 +1,5 @@
 /venv
 .env
+/utils/__pycache__
+
+.DS_STORE

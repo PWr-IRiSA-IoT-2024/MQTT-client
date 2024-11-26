@@ -1,0 +1,17 @@
+# Expected payload from sensor
+
+1 byte total
+
+aaa|bbbbb|
+   |     |
+   |    value
+  type of measurement
+
+
+# Types of measurements
+ - CO_2
+ - Temperature
+ - Humidity
+ - Air pollution
+
+ Details: https://github.com/bauerkamil/nrf_BLE/blob/master/data_levels.txt
