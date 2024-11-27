@@ -54,7 +54,8 @@ def on_message(_client, _userdata, msg):
         measurement, tags, time, fields = decode_uplink(payload)
 
         if not all([measurement, tags, time, fields]):
-            raise ValueError("Failed to decode uplink message")
+            logging.error("Failed to decode uplink message")
+            return
 
         write_data_to_db(measurement, tags, time, fields)
 

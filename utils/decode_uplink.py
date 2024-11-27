@@ -11,6 +11,10 @@ def decode_uplink(message):
     try:
         data = json.loads(message)
 
+        if not data["uplink_message"].get("frm_payload"):
+            logging.error("No payload found in uplink message")
+            return None, None, None, None
+
         encoded_payload = data["uplink_message"]["frm_payload"]
         type, value = convert_payload(encoded_payload)
 
